@@ -1,0 +1,14 @@
+Good news: Your JML annotations PASSED all dynamic tests (100% of test cases passed Runtime Assertion Checking).
+
+However, the annotations could not pass OpenJML's static verification (ESC) — the SMT solver timed out.
+
+Please try to REWRITE the JML annotations using a more SMT-solver-friendly style:
+1. Simplify quantifier expressions — reduce nesting, use concrete bounds.
+2. Break complex ensures into multiple simpler ensures clauses.
+3. Add intermediate assertions or loop invariants to help the solver.
+4. Avoid unbounded quantification over arrays — use explicit index ranges.
+5. Consider using \old() to capture pre-state values explicitly.
+
+The goal is to make the annotations verifiable by OpenJML ESC while still being semantically correct (they already pass dynamic testing).
+
+Output the COMPLETE Java class with rewritten JML annotations in a single ```java code block.

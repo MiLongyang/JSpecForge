@@ -1,0 +1,18 @@
+The JML annotations you provided contain SYNTAX ERRORS and could not be parsed.
+
+Compiler/Checker error output:
+```
+{syntax_error}
+```
+
+Please fix the syntax errors in your JML annotations. Common causes:
+- Unsupported JML syntax (remember: \sum, \product, \num_of, \max, \min, \count, \big_or are NOT supported)
+- Missing semicolons in JML clauses
+- JML method modifiers (pure, nullable, spec_public, etc.) must NOT end with semicolons; they are modifiers, not clauses
+- JML uses backslash-prefixed keywords (\result, \old, \forall, \exists, etc.) - do not forget the backslash
+- Incorrect use of JML keywords
+- Type mismatches in JML expressions
+- Malformed quantifier expressions
+- If the error mentions "code too large" or "timed out": your specification is TOO COMPLEX. Do NOT add more clauses — instead SIMPLIFY by removing redundant ensures/requires, merging related conditions, and avoiding deeply nested quantifiers. Fewer, stronger clauses are better than many weak ones.
+
+Output the COMPLETE Java class with corrected JML annotations in a single ```java code block.

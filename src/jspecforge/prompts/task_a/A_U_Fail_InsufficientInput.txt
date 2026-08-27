@@ -1,0 +1,34 @@
+The JML annotations you provided were syntax-checked but Property-Based Testing revealed a potential mismatch between your preconditions and the task's actual input distribution.
+{oj_error_block}
+## What happened
+Most generated inputs were REJECTED by the JML `requires` clauses. The test driver could not run enough valid cases to validate your postconditions.
+
+## Statistics
+{valid_input_stats}
+
+## Sample Rejected Inputs (preconditions they violated)
+{precondition_samples}
+
+## What this means — two plausible causes
+
+1. **Your `requires` clauses may be too restrictive** (most common cause).
+   For example: unnecessary narrow bounds, overly strict structural constraints,
+   or a conjunction of conditions whose intersection is almost empty.
+   → Relax the preconditions so they match what the method is actually
+   expected to handle, based on the natural language description and the
+   method body.
+
+2. **The task's input domain is naturally sparse**, and the preconditions
+   legitimately describe that rarity. The generator is predefined and
+   high-coverage, so if you believe your preconditions are correct, the
+   acceptable answer is to KEEP them unchanged.
+   → In that case, re-output the SAME JML annotations. Repeated "insufficient
+   input" signals will eventually terminate this task and flag it for manual
+   review, which is the intended behavior.
+
+## Instructions
+
+Analyze the rejected samples above. Decide whether your preconditions are
+over-constrained (case 1) or correctly describe a sparse domain (case 2).
+Do NOT modify the method body. Output the COMPLETE Java class with your
+decision inside a single ```java code block.

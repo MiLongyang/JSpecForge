@@ -1,0 +1,15 @@
+The JML annotations you provided passed syntax checking, but FAILED dynamic testing (Runtime Assertion Checking).
+{oj_error_block}
+The following postcondition violations were detected during Property-Based Testing:
+
+{failure_samples}
+
+Each failure entry shows:
+- "clause": the JML ensures clause that was violated
+- "sample_input": the input that triggered the violation
+- "sample_output": the actual return value of the method
+- "error_message": the RAC assertion error message
+
+Please analyze these concrete counterexamples and fix your JML ensures clauses. The postconditions must accurately describe what the code ACTUALLY does, not what you think it SHOULD do.
+
+Output the COMPLETE Java class with corrected JML annotations in a single ```java code block.

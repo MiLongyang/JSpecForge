@@ -1,0 +1,29 @@
+Your JML annotations passed {mt_path} verification, but mutation testing reveals the specification is too weak — many code mutants still satisfy your current annotations.
+{oj_error_block}
+## Mutation Testing Result
+- Verification path: {mt_path}
+- Mutation score: {mt_score} ({mt_killed} killed / {mt_survived} survived out of {mt_total} valid mutants)
+
+A "survived" mutant is a deliberately altered version of the original code whose behavior differs from the original, yet your current JML annotations still hold for it. Each survivor exposes a behavior the specification fails to constrain.
+
+## Survived Mutants
+{survived_summary}
+
+Each entry above is a JSON object with these fields:
+- "id": Major mutant ID
+- "operator": mutation operator and its concrete transformation (e.g. "ROR (>=→>)", "AOR (+→-)", "COR (&&→||)")
+- "line": source line number where the mutation was applied
+- "original": the original code fragment that was mutated
+- "mutant": the replacement fragment after mutation
+
+## Instructions
+
+Strengthen the JML annotations so the specification distinguishes the original behavior from each survivor above:
+
+1. Add or tighten `ensures` / `loop_invariant` / `requires` clauses to rule out the mutated behaviors.
+2. DO NOT remove or weaken existing clauses that are already correct — only add new clauses or refine existing ones.
+3. DO NOT write JML expressions that may overflow Java's int/long range at runtime (RAC evaluates JML using native Java arithmetic). If a strengthening clause risks overflow, narrow the `requires` clause or choose a simpler form.
+4. Prefer general clauses that kill multiple survivors at once over ad-hoc clauses each targeting a single mutant ID. The goal is to characterize the code precisely, not to enumerate mutants.
+5. The strengthened specification must remain consistent with the natural language description and the actual code behavior.
+
+Output the COMPLETE Java class with strengthened JML annotations in a single ```java code block.

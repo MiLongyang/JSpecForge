@@ -1,0 +1,17 @@
+Your previous answer modified the original Java source code.
+
+This is not allowed. You must preserve the Java method source exactly, except for adding or changing JML annotations.
+
+Detected issue:
+```
+{source_error}
+```
+
+Original Java code:
+```java
+{full_java_code}
+```
+
+Regenerate the answer using the original Java code above. Add or fix only JML annotations. Do not rename variables, change method signatures, change statements, reorder logic, add helper calls, or rewrite the Java method body.
+
+Output the COMPLETE Java class with JML annotations in a single ```java code block.

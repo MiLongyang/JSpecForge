@@ -1,0 +1,10 @@
+The JML annotations you provided failed OpenJML ESC (Extended Static Checking) verification with a LOGIC ERROR.
+
+OpenJML reported the following error:
+```
+{oj_error}
+```
+
+Please analyze the error message above and fix your JML annotations accordingly.
+
+Output the COMPLETE Java class with corrected JML annotations in a single ```java code block.

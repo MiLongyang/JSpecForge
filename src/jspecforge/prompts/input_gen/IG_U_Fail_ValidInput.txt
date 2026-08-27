@@ -1,0 +1,17 @@
+The `generateValidInput` method compiled successfully, but too many generated inputs were REJECTED by the JML preconditions.
+
+## Statistics
+{valid_input_stats}
+
+The valid input ratio is below the required threshold. Most inputs are being rejected because they violate the method's `requires` clauses.
+
+## Sample Rejected Inputs (precondition violations)
+{precondition_samples}
+
+Please improve the `generateValidInput` method to produce inputs that satisfy the JML preconditions more reliably. Suggestions:
+1. Carefully re-read the `requires` clauses and ensure your generation logic respects ALL constraints.
+2. For array inputs: ensure length bounds, element value ranges, and structural constraints (e.g., sorted, non-null) are met.
+3. For numeric inputs: ensure values are within the required ranges.
+4. Consider constraint-aware generation: generate base values first, then adjust to satisfy preconditions.
+
+Output ONLY the corrected `generateValidInput` method inside a ```java code block.

@@ -1,0 +1,168 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django / Flask
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+
+# Jupyter / IPython
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# pyenv / pipenv / poetry / pdm
+.python-version
+Pipfile.lock
+poetry.lock
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582
+__pypackages__/
+
+# Type checkers / linters
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ===== JSpecForge 项目相关 =====
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 数据集与导出产物
+data/
+datasets/
+exports/
+outputs/
+output/
+# 真实任务数据集（用户提供，3400 条 Code2Bench 等，由 P7 任务加载脚本消费）
+all-compiled-success.jsonl
+*-compiled-success.jsonl
+
+# LLM 缓存与运行时产物
+.cache/
+runs/
+logs/
+*.log
+
+# 配置（含密钥）
+config.yaml
+config.local.yaml
+config.*.local.yaml
+vendors.csv
+.env.local
+secrets/
+
+# 临时与备份
+tmp/
+temp/
+*.bak
+*.tmp
+*.swp
+*~
+
+# ===== IDE / 编辑器 =====
+.idea/
+.vscode/
+*.iml
+*.code-workspace
+.project
+.pydevproject
+.settings/
+
+# ===== 操作系统 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+ehthumbs_vista.db
+
+# ===== 其他 =====
+.claude/
+node_modules/
+
+# 本地备忘录（不入库）
+NOTES.local.md
+
+# ===== JSpecForge 实验产物与依赖入库 =====
+# 实验产物目录（314MB sql/jsonl 结果不入库，仅保留 .gitkeep 占位）
+a/
+
+# 覆盖上方 Python 通用规则中的 lib/: 本项目 lib/ 是 OpenJML/major/jqwik 等
+# 运行时依赖（jar），必须入库，而非当作构建产物。
+!lib/
+!lib/**
+# lib/ 内部自带的运行日志（如 major 的 mmlc.log）仍不入库
+lib/**/*.log
+# 动态黑名单持久化文件（运行期生成，不入库）
+dynamic_blacklist.json

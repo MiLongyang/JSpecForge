@@ -1,0 +1,15 @@
+Please generate JML annotations for the following Java method.
+
+## Natural Language Description
+{nl_description}
+
+## Complete Java Class
+```java
+{full_java_code}
+```
+
+## Requirements
+1. Add JML annotations (requires, ensures, signals, assignable, etc.) to the target method.
+2. The annotations must precisely capture the behavior described in the natural language description.
+3. Output the COMPLETE Java class with JML annotations inserted at the correct positions.
+4. Wrap your output in a single ```java code block.

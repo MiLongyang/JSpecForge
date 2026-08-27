@@ -1,0 +1,304 @@
+# =============================================================================
+# JSpecForge config.yaml.example —— 复制为 config.yaml 后按本机环境填写
+# =============================================================================
+# 数值为通用占位符。
+# 标有【必填】的字段必须改成服务器的真实路径或密钥，否则无法启动。
+# =============================================================================
+
+# 运行平台,枚举值: "windows" | "linux"
+#   windows: Python/JDK/MySQL 在 Windows 原生; OpenJML 通过 wsl -e 调用
+#   linux:   全部原生执行,无需 WSL
+platform: "linux"
+
+# 流水线模式,枚举值: "full" | "oj_only" | "oj_rp"
+#   full:    完整流程 —— OJ + RP 双通道验证 + 在线 MT 变异测试反馈(默认)
+#   oj_only: 只走 OpenJML ESC 静态验证,不含 RP 与 MT
+#   oj_rp:   OJ + RP 双通道验证,但不做在线 MT
+pipeline_mode: "full"
+
+environment:
+  # 跟 platform 对齐(代码仅做枚举校验,逻辑以 platform 为准)
+  mode: "linux"
+  # WSL 发行版名称,仅 platform=windows 时生效; linux 留空
+  wsl_distro: ""
+
+# -----------------------------------------------------------------------------
+# RP 兜底开关
+# -----------------------------------------------------------------------------
+# 是否启用 RP(RAC+PBT) 作为 OJ ESC 失败后的兜底流程。
+#   true(默认): OJ 失败/黑名单/超时 → 进 RP 兜底
+#   false:      OJ 失败直接回 task_a 重试,不走 RP
+rp_fallback_enabled: true
+
+# -----------------------------------------------------------------------------
+# 路径配置(所有目录启动时由 path_utils.ensure_dir() 自动创建)
+# -----------------------------------------------------------------------------
+paths:
+  # 项目根工作目录【必填】
+  workspace_dir: "/path/to/JSpecForge"
+
+  # 临时文件根目录
+  tmp_dir: "/path/to/JSpecForge/tmp"
+
+  # 生成的 .java 源文件目录
+  java_source_dir: "/path/to/JSpecForge/tmp/java_src"
+
+  # RAC 编译输出 .class 目录
+  rac_output_dir: "/path/to/JSpecForge/tmp/rac_out"
+
+  # PBT 测试驱动编译输出目录
+  pbt_bin_dir: "/path/to/JSpecForge/tmp/pbt_bin"
+
+  # 依赖 jar 与 jmlruntime 类目录(含 jmlruntime.jar 等)【必填】
+  lib_dir: "/path/to/JSpecForge/lib"
+
+  # 最终输出目录(success.jsonl / failed.jsonl)
+  output_dir: "/path/to/JSpecForge/output"
+
+  # 日志目录
+  log_dir: "/path/to/JSpecForge/logs"
+
+  # 提示词模板目录
+  prompts_dir: "/path/to/JSpecForge/src/jspecforge/prompts"
+
+  # Java 模板目录(TestDriverTemplate.java)
+  template_dir: "/path/to/JSpecForge/templates"
+
+  # 优雅停机文件路径,创建此文件触发停机
+  stop_file: "/path/to/JSpecForge/STOP"
+
+  # JML 黑名单关键字文件
+  blacklist_file: "/path/to/JSpecForge/blacklist.txt"
+
+  # OpenJML 提供的 java 命令,用于 PBT TestDriver 运行【必填】
+  # 使 RAC 编译产物能正确执行含 model method 的规格
+  openjml_java_cmd: "/path/to/openjml_tool/openjml-java"
+
+# -----------------------------------------------------------------------------
+# 数据库连接(MySQL)
+# -----------------------------------------------------------------------------
+database:
+  host: "localhost"
+  port: 3306
+  user: "root"
+  password: "your_password_here"    # 【必填】请替换为真实密码
+  database: "jspecforge"
+  charset: "utf8mb4"
+  pool_size: 100                    # 建议 ≥ workers 各阶段之和
+  connect_timeout: 10
+  read_timeout: 30
+  write_timeout: 30
+
+# -----------------------------------------------------------------------------
+# OpenJML(ESC 静态验证 + RAC 运行时断言编译)
+# -----------------------------------------------------------------------------
+openjml:
+  cmd: "/path/to/openjml_tool/openjml"   # 【必填】OpenJML 可执行文件路径
+  jvm_heap_max: "1536m"
+  esc_extra_args:
+    - "--code-math=bigint"
+    - "--spec-math=bigint"
+    - "--nullable-by-default"
+  rac_extra_args:
+    - "--nullable-by-default"
+  timeout: 120
+  rac_timeout: 120
+  timeout_threshold_seconds: 115
+  startup_optimize: true
+
+# -----------------------------------------------------------------------------
+# Java 工具(javac / java)
+# -----------------------------------------------------------------------------
+java:
+  java_cmd: "java"                # 系统默认 java
+  javac_cmd: "javac"              # 系统默认 javac
+  test_driver_jvm_args:
+    - "-Dorg.jmlspecs.openjml.rac=exception"
+    - "-ea"
+    - "-Dfile.encoding=UTF-8"
+    - "-Dstdout.encoding=UTF-8"
+    - "-Dstderr.encoding=UTF-8"
+  test_driver_heap_max: "512m"
+  javac_timeout: 90
+  test_driver_timeout: 120
+  javac_startup_optimize: true
+
+# -----------------------------------------------------------------------------
+# LLM 调用
+# -----------------------------------------------------------------------------
+llm:
+  vendors_csv: "/path/to/JSpecForge/vendors.csv"   # 【必填】复制 vendors.csv.example 后填写
+  request_timeout: 180
+  user_agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+  max_tokens: 8192
+  temperature: 0.7
+  # 国内服务器直连国内厂商 API 通常无需代理; 需翻墙的厂商填 "http://代理:端口"
+  proxy_address: null
+  max_concurrent_global: 20
+  max_concurrent_per_vendor: 5
+  thinking_model_keywords:
+    - "deepseek-r1"
+    - "thinking"
+    - "reasoning"
+  thinking_tag: ""
+  thinking_end_tag: ""
+  model_cooldown_seconds: 1200
+  cooldown_trigger_failures: 3
+  http_retry_max: 2
+  rate_limit_wait_seconds: 20
+
+# -----------------------------------------------------------------------------
+# PBT 动态测试
+# -----------------------------------------------------------------------------
+pbt:
+  test_runs: 300
+  valid_input_min_ratio: 0.05
+  failure_sample_max: 5
+  early_stop_on_fail: false
+  early_stop_max_fails: 50
+  startup_optimize: true
+  test_driver_threads: 1
+
+# -----------------------------------------------------------------------------
+# MT 变异测试
+# -----------------------------------------------------------------------------
+mt:
+  enabled: true
+  workers: 3
+  operators:
+    - "AOR"
+    - "ROR"
+    - "COR"
+    - "SBR"
+    - "BVR"
+  max_mutants_per_method: 50
+  timeout_per_mutant: 150
+  jvm_heap_max: "256m"
+  # JDK 11 javac 完整路径【必填】(Major 3.0.1 仅兼容 JDK 11,不得用更高版本)
+  jdk11_javac: "/path/to/jdk/jdk-11/bin/javac"
+  # Major 安装目录(包含 bin/ lib/ mml/ 等子目录)【必填】
+  major_home: "/path/to/JSpecForge/lib/major-3.0.1_jre11/major"
+  # MT 反馈循环
+  score_threshold: 0.60
+  oj_feedback_max_rounds: 6
+  rp_feedback_max_rounds: 6
+  terminate_on_threshold: true
+  feedback_max_survived: 25
+
+# -----------------------------------------------------------------------------
+# 重试上限
+# -----------------------------------------------------------------------------
+retry:
+  task_a_max_rounds: 55
+  task_a_logic_max: 16
+  task_a_syntax_consecutive_max: 10
+  task_a_syntax_total_max: 16
+  # LLM 修改原始 Java 方法源码的最大次数, 达此值标 failed_source_fidelity 终止
+  source_fidelity_max: 8
+  # RP(PBT) 100% 通过候选累计上限; 满则关闭本任务 RP 通道,不终止
+  pbt_pass_count_max: 6
+  # OJ ESC 通过候选累计上限; 满则任务终止成功
+  oj_pass_count_max: 6
+  input_gen_max_per_a_round: 5
+  input_gen_total_max: 10
+  pbt_compile_max_consecutive: 5
+  pbt_compile_max_total: 10
+  a_round_max: 55
+  rac_error_pattern_max: 3
+  rac_oj_bug_total_max: 5
+  task_a_insufficient_input_consecutive_max: 3
+  task_a_insufficient_input_total_max: 8
+  infra_error_wait_seconds: 10
+  infra_error_max_per_task: 3
+  infra_error_global_max: 20
+  infra_error_global_window_seconds: 600
+
+# -----------------------------------------------------------------------------
+# JML 黑名单与动态扩充
+# -----------------------------------------------------------------------------
+blacklist:
+  v1:
+    - "\\sum"
+    - "\\product"
+    - "\\num_of"
+    - "\\max"
+    - "\\min"
+    - "\\count"
+    - "\\big_or"
+  protected:
+    - "\\forall"
+    - "\\exists"
+    - "\\result"
+    - "\\old"
+    - "\\typeof"
+    - "\\nothing"
+  # 路径模板,运行时由 {workspace_dir} 占位符展开
+  dynamic_persist_file: "{workspace_dir}/dynamic_blacklist.json"
+
+# -----------------------------------------------------------------------------
+# Worker 线程数(与 LLM 并发是两层独立控制)
+# -----------------------------------------------------------------------------
+workers:
+  task_a: 5
+  openjml_esc: 3
+  rac: 2
+  input_gen: 1
+  pbt: 3
+  mt: 2
+  final: 2
+
+# -----------------------------------------------------------------------------
+# 任务加载
+# -----------------------------------------------------------------------------
+task_loading:
+  batch_size: 200
+  queue_low_watermark: 10
+  source_machine: "local"
+  max_active_tasks: 8             # 全局最大活跃任务数, 0=不限制
+
+# -----------------------------------------------------------------------------
+# 监控面板
+# -----------------------------------------------------------------------------
+monitor:
+  enabled: true
+  refresh_interval: 2
+  show_queue_depth: true
+  show_circuit_breaker: true
+  show_retry_stats: true
+
+# -----------------------------------------------------------------------------
+# 日志
+# -----------------------------------------------------------------------------
+logging:
+  level: "INFO"
+  console_level: "INFO"
+  filename: "jspecforge.log"
+  max_file_size_mb: 50
+  backup_count: 5
+  format: "detailed"
+
+# -----------------------------------------------------------------------------
+# 数据导出
+# -----------------------------------------------------------------------------
+export:
+  float_precision: 4
+  include_llm_history: true
+  include_call_meta: true
+  include_failure_samples: true
+
+# -----------------------------------------------------------------------------
+# 清理
+# -----------------------------------------------------------------------------
+cleanup:
+  auto_cleanup_on_complete: false
+  cleanup_on_startup: false
+
+# -----------------------------------------------------------------------------
+# 报错日志截断
+# -----------------------------------------------------------------------------
+error_log:
+  openjml_max_lines: 50
+  rac_max_lines: 50
+  compile_error_max_lines: 50
+  pbt_compile_error_max_lines: 80
+  failure_sample_max_chars: 4000

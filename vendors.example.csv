@@ -1,0 +1,2 @@
+vendor_name,base_url,api_key,available_models,unavailable_models,enabled,use_proxy,user_enabled
+DeepSeek,https://api.deepseek.com,sk-xxxxxx,deepseek-v4-pro,deepseek-chat,TRUE,FALSE,TRUE

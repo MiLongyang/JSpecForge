@@ -1,0 +1,44 @@
+Please generate a `generateValidInput(Random random)` method for testing the following JML-annotated Java method.
+
+## Natural Language Description
+{nl_description}
+
+## JML-Annotated Java Class
+```java
+{jml_annotated_code}
+```
+
+## Test Driver Template (for context)
+Your code will be injected into the `PLACEHOLDER_INPUT_GENERATOR` placeholder
+inside the test driver class shown below. All methods you write will become
+top-level static members of that class.
+```java
+{test_driver_template}
+```
+
+## Requirements
+1. The main method signature must be: `public static Object[] generateValidInput(Random random)`
+2. The returned Object[] must contain the method parameters in the correct order and types matching the target method.
+3. All generated inputs MUST satisfy the JML `requires` clauses (preconditions).
+4. Generate diverse inputs covering:
+   - Normal cases
+   - Boundary values (0, 1, -1, Integer.MAX_VALUE, Integer.MIN_VALUE, empty arrays, etc.)
+   - Edge cases specific to the method's domain
+5. Use ONLY the provided `random` parameter for randomness.
+6. **You MAY define helper methods** (e.g., `generateRandomWord`, `pickFromList`, etc.) — all methods you write will be injected together as `static` members of the test driver class.
+7. Keep helper methods `private static` for clarity.
+
+## Output Format
+Output your code inside a single ```java code block. **Do NOT wrap your code in a class declaration** — output the methods directly as they would appear **inside a class body**. Example:
+
+```java
+public static Object[] generateValidInput(Random random) {
+    // ...
+    return new Object[]{...};
+}
+
+private static String generateRandomWord(Random random, int min, int max) {
+    // helper method
+}
+```
+

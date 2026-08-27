@@ -83,7 +83,7 @@ def extract_placeholders(template_text: str) -> Set[str]:
         template_text: 模板正文。
 
     Returns:
-        变量名集合（去重）。空集表示模板无占位符（如 A_S / A_U_PBT_Pass）。
+        变量名集合（去重）。空集表示模板无占位符（如 A_S）。
     """
     return set(_PLACEHOLDER_PATTERN.findall(template_text))
 

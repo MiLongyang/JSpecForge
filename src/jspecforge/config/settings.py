@@ -318,6 +318,9 @@ class BlacklistConfig:
         ]
     )
     dynamic_persist_file: Optional[str] = None
+    # 黑名单总开关：True=静态 v1 + 动态扩充 + 持久化全启用（与历史行为一致）；
+    # False=完全关闭（check 恒不命中、update 不扩充、不读/写持久化文件）。
+    enabled: bool = True
 
 
 @dataclass(frozen=True)

@@ -61,12 +61,15 @@ class BlacklistRuntime:
         protected: 配置中的保护列表（不可变，永远从运行时集合中扣除）。
         active: 当前生效的黑名单 set（v1 ∪ persisted - protected）。
         persist_file: 持久化文件路径，``None`` 表示禁用持久化。
+        enabled: 黑名单总开关。False 时 :meth:`check` 恒不命中、:meth:`update`
+            恒不扩充。
     """
 
     v1: frozenset[str] = field(default_factory=frozenset)
     protected: frozenset[str] = field(default_factory=frozenset)
     active: Set[str] = field(default_factory=set)
     persist_file: Optional[Path] = None
+    enabled: bool = True
     _lock: threading.RLock = field(default_factory=threading.RLock, repr=False)
 
     # ---- 公开方法 -----------------------------------------------------
@@ -83,6 +86,8 @@ class BlacklistRuntime:
             ``(hit, hits)`` —— ``hit`` 为是否至少命中一个；``hits`` 为
             按字典序排序的命中关键字列表（无命中时为空列表）。
         """
+        if not self.enabled:
+            return (False, [])
         with self._lock:
             current = sorted(self.active)
         hits = [kw for kw in current if kw in jml_text]
@@ -99,6 +104,8 @@ class BlacklistRuntime:
             真正新增到 ``active`` 中的关键字列表（按首次出现顺序）。
             被 ``protected`` 拦截或已在 ``active`` 中的不计入。
         """
+        if not self.enabled:
+            return []
         added: List[str] = []
         with self._lock:
             for kw in new_keywords:
@@ -362,7 +369,24 @@ def _build_runtime(blacklist: BlacklistConfig) -> BlacklistRuntime:
     """构建 ``BlacklistRuntime`` 实例。
 
     合并顺序：``v1 ∪ persisted - protected``，与 docs §7.3 一致。
+
+    ``blacklist.enabled=False`` 时完全关闭：返回空 active、禁用持久化，
+    ``check``/``update`` 均因 ``enabled=False`` 直接短路，静态 v1 与动态扩充
+    一并失效。
     """
+    if not getattr(blacklist, "enabled", True):
+        _logger.info(
+            "blacklist runtime: disabled (blacklist.enabled=false) → "
+            "空黑名单，静态 v1 / 动态扩充 / 持久化全部关闭"
+        )
+        return BlacklistRuntime(
+            v1=frozenset(),
+            protected=frozenset(),
+            active=set(),
+            enabled=False,
+            persist_file=None,
+        )
+
     v1 = frozenset(blacklist.v1 or [])
     protected = frozenset(blacklist.protected or [])
     persist_path = _resolve_persist_path(blacklist.dynamic_persist_file)

@@ -166,3 +166,11 @@ a/
 lib/**/*.log
 # 动态黑名单持久化文件（运行期生成，不入库）
 dynamic_blacklist.json
+
+# 各平台的运行配置（linux/*.yaml 含密钥，不入库）
+linux/
+# 本地脚本（不入库）
+*.bat
+# 本地笔记型文档（不入库；README.md / README_EN.md 已在库中保留）
+JSpecForge_提交文件清单.md
+MT-off-self-judge-design.md

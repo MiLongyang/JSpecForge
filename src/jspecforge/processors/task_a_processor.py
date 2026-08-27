@@ -513,7 +513,10 @@ class TaskAProcessor(BaseProcessor):
                 },
             )
         if task.last_pbt_pass_a_round is not None:
-            return (_T_A_U_PBT_PASS, {})
+            return (
+                _T_A_U_PBT_PASS,
+                {"oj_error_block": self._build_pbt_pass_oj_block(task)},
+            )
         if task.last_oj_label == "SYNTAX_ERROR" or task.last_rac_error:
             err = (
                 task.last_rac_error
@@ -862,7 +865,7 @@ class TaskAProcessor(BaseProcessor):
                 )
             # 真实 OJ 失败: label + 截断报错
             label = status
-            snippet = detail[:300] if detail else "(no OJ error detail recorded)"
+            snippet = detail[:1500] if detail else "(no OJ error detail recorded)"
             return f"[OJ ESC status={label}] {snippet}"
 
         return ""
@@ -912,6 +915,21 @@ class TaskAProcessor(BaseProcessor):
             "ESC-friendly style (simpler quantifiers, explicit bounds, "
             "shallow nesting) while strengthening it against the surviving "
             "mutants below.\n"
+        )
+
+    def _build_pbt_pass_oj_block(self, task: Task) -> str:
+        """PBT 通过、但 OJ/ESC 未通过时回喂的真实 OJ 失败原因。
+
+        供 ``A_U_PBT_Pass`` 模板使用：该模板只给出"好写法"建议、缺少真实报错。
+        此处补上当初 OJ 失败的确切原因（黑名单关闭时为实测报错；黑名单开启且
+        命中跳过时仍为预判说明，维持现状）。
+        """
+        summary = self._build_oj_error_summary(task)
+        if not summary:
+            return ""
+        return (
+            "Original OpenJML ESC failure (the actual reason it did not pass "
+            f"static verification): {summary}"
         )
 
     def _get_blacklist_runtime(self) -> BlacklistRuntime:

@@ -150,10 +150,10 @@ TEMPLATE_SPECS: Dict[str, TemplateSpec] = {
         template_id="A_U_PBT_Pass",
         session_type=SESSION_TASK_A,
         role=ROLE_USER,
-        required_vars=frozenset(),
+        required_vars=frozenset({"oj_error_block"}),
         description=(
-            "PBT 动态测试 100% 通过但 OJ 超时。请求使用对 SMT 求解器更"
-            "友好的写法重写规约。"
+            "PBT 动态测试 100% 通过但 OJ/ESC 未通过。附带真实 OJ 失败原因"
+            "（oj_error_block），请求重写规约以通过 ESC。"
         ),
     ),
     "A_U_Fail_InsufficientInput": TemplateSpec(

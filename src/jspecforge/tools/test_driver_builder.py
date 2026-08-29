@@ -309,6 +309,31 @@ def parse_method_signature(text: str) -> Optional[MethodSignature]:
     )
 
 
+def _split_top_level_commas(s: str) -> List[str]:
+    """按顶层逗号切分, 忽略泛型 ``<>`` 内部的逗号。
+
+    修复 PBT TestDriver 泛型强转错位: 参数类型 ``HashMap<String, Integer>``
+    含内部逗号, 朴素 ``str.split(",")`` 会把它切成 ``HashMap<String`` 与
+    ``Integer>`` 两段, 导致生成的调用语句括号错位、编译失败。
+    """
+    parts: List[str] = []
+    depth = 0
+    cur: List[str] = []
+    for ch in s:
+        if ch == "<":
+            depth += 1
+        elif ch == ">":
+            depth = max(0, depth - 1)
+        if ch == "," and depth == 0:
+            parts.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+    if cur:
+        parts.append("".join(cur))
+    return parts
+
+
 def _parse_param_types(params_text: str) -> List[str]:
     """解析参数列表字符串 → 类型列表。
 
@@ -325,8 +350,8 @@ def _parse_param_types(params_text: str) -> List[str]:
     if not params_text or not params_text.strip():
         return []
 
-    # 简单按 ',' 切分（不处理泛型 ``Map<K, V>``，参数列表中较少出现）
-    parts = [p.strip() for p in params_text.split(",") if p.strip()]
+    # 按顶层逗号切分（忽略泛型 Map<K, V> 内部的逗号）
+    parts = [p.strip() for p in _split_top_level_commas(params_text) if p.strip()]
     types: List[str] = []
     for part in parts:
         # 取最后一个空格之前的部分作为类型；然后处理类型与变量名间的 [] 后缀

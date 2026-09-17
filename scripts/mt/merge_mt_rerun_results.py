@@ -48,7 +48,8 @@ def validate_result_row(row: Mapping[str, Any]) -> list[str]:
         score = row.get("mutation_score")
         if not isinstance(score, (int, float)):
             errors.append("ok result missing numeric mutation_score")
-        elif score < 0 or score > 1:
+        elif score < -1 or score > 1:
+            # score=-1 是设计内的合法值：“0 个可算变异体”/“分母为 0”
             errors.append(f"ok result mutation_score out of range: {score}")
         for field in ("mt_killed", "mt_survived", "mt_total"):
             if not isinstance(row.get(field), int):

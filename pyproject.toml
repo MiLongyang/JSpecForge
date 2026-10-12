@@ -17,11 +17,6 @@ dependencies = [
     "rich>=13.0",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0",
-]
-
 [project.scripts]
 jspecforge = "jspecforge.main:main"
 
@@ -30,6 +25,3 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 jspecforge = ["prompts/**/*.txt"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]

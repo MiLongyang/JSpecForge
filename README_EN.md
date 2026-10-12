@@ -95,7 +95,7 @@ Controlled by `pipeline_mode` in `config.yaml` (choose one):
 | MySQL | 5.7+ / 8.x | Task-state and process-record storage |
 | LLM API | OpenAI-compatible | Any vendor implementing the OpenAI Chat Completions protocol |
 
-Python package dependencies (authoritative source: `pyproject.toml`): `pyyaml`, `PyMySQL`, `DBUtils`, `requests`, `rich`; `pytest` is additionally needed for testing.
+Python package dependencies (authoritative source: `pyproject.toml`): `pyyaml`, `PyMySQL`, `DBUtils`, `requests`, `rich`.
 
 > **Platform note**: on Windows, OpenJML is invoked through WSL (`platform: "windows"`); on Linux everything runs natively (`platform: "linux"`).
 

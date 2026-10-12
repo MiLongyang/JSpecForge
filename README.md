@@ -95,7 +95,7 @@ JML 提取 + 源码保真校验 + JML 黑名单检查
 | MySQL | 5.7+ / 8.x | 任务状态与过程记录存储 |
 | LLM API | OpenAI 兼容 | 任一符合 OpenAI Chat Completions 协议的供应商 |
 
-Python 包依赖（权威来源为 `pyproject.toml`）：`pyyaml`、`PyMySQL`、`DBUtils`、`requests`、`rich`；测试额外需要 `pytest`。
+Python 包依赖（权威来源为 `pyproject.toml`）：`pyyaml`、`PyMySQL`、`DBUtils`、`requests`、`rich`。
 
 > **平台说明**：Windows 下 OpenJML 通过 WSL 调用（`platform: "windows"`）；Linux 下全部原生执行（`platform: "linux"`）。
 

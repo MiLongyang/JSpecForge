@@ -10,9 +10,10 @@ against the linked source before public redistribution.
 
 - Version: 3.0.1 (JDK 11 build)
 - Path: `lib/major-3.0.1_jre11/major/`
-- License: distributed for academic/research use under the terms stated on
-  the official site; **not** a standard OSI open-source license.
-  **Verify the exact terms before making this repository public.**
+- License: distributed for academic/research use under custom terms (not an
+  OSI open-source license); redistributed here unmodified for the research
+  described in the accompanying paper. Cite: Just, R., Schweiggert, F., &
+  Kapfhammer, G. M. (2014), "The MAJOR mutation framework", ISSTA.
 - Source: <https://mutation-testing.org/>
 
 ## OpenJML runtime (jmllang / jmlruntime / org.jmlspecs)

@@ -12,6 +12,9 @@ tasks preprocessed from FormalBench (Le-Cong et al., 2025).
   task-level input generator (`input_generator_code`), and branch-coverage
   metadata (`branch_coverage`). Tasks were admitted when the fixed input
   generator reached at least 90% branch coverage.
+- License: derived from [FormalBench](https://github.com/thanhlecongg/FormalBench)
+  (Le-Cong et al., 2025, Apache-2.0); this JSONL is a preprocessed derivative
+  (single-method extraction, description pairing, branch-coverage filtering).
 
 ## Result datasets
 

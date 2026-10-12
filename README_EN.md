@@ -18,7 +18,6 @@ JSpecForge reads programming-task data consisting of a natural-language descript
 - [Quick Start](#quick-start)
 - [Output](#output)
 - [Project Layout](#project-layout)
-- [Testing](#testing)
 
 ---
 
@@ -249,14 +248,6 @@ JSpecForge/
 │   └── jspecforge.sql       # Database schema script
 ├── templates/               # PBT / MT TestDriver templates
 ├── data/                    # Input dataset (jsonl)
-├── tests/                   # pytest test suite
 ├── config.yaml.example      # Config template (copy to config.yaml)
 └── vendors.example.csv      # LLM vendor template (copy to vendors.csv)
-```
-
-## Testing
-
-```bash
-pip install pytest
-python -m pytest tests/ -q
 ```

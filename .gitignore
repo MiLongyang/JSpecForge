@@ -174,3 +174,7 @@ linux/
 # 本地笔记型文档（不入库；README.md / README_EN.md 已在库中保留）
 JSpecForge_提交文件清单.md
 MT-off-self-judge-design.md
+
+# 消融实验的数据 dump 与备份（实验数据，不入公共库）
+sql/jspecforge_abl_*.sql
+sql/modelname_rename_bak/

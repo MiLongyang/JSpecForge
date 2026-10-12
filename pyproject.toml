@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "jspecforge"
 version = "0.0.0"
-description = "基于 LLM 的 Java JML 规格生成与验证流水线"
+description = "LLM-based pipeline for generating and verifying Java JML specifications"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "mloser" }]

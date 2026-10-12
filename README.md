@@ -18,7 +18,6 @@ JSpecForge 读取「自然语言描述 + Java 参考实现」的编程题数据�
 - [快速开始](#快速开始)
 - [输出产物](#输出产物)
 - [项目结构](#项目结构)
-- [测试](#测试)
 
 ---
 
@@ -249,14 +248,6 @@ JSpecForge/
 │   └── jspecforge.sql       # 数据库建库建表脚本
 ├── templates/               # PBT / MT TestDriver 模板
 ├── data/                    # 输入数据集（jsonl）
-├── tests/                   # pytest 测试套件
 ├── config.yaml.example      # 配置示例（复制为 config.yaml）
 └── vendors.example.csv      # LLM 供应商示例（复制为 vendors.csv）
-```
-
-## 测试
-
-```bash
-pip install pytest
-python -m pytest tests/ -q
 ```

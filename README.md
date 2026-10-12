@@ -6,6 +6,8 @@ JSpecForge 读取「自然语言描述 + Java 参考实现」的编程题数据�
 
 [English README](README_EN.md)
 
+> 📦 **实验产物（论文 Data Availability）**：688 任务输入与 full/norp 结果 JSONL 见 [`dataset/`](dataset/README.md)。
+
 ---
 
 ## 目录
@@ -247,6 +249,7 @@ JSpecForge/
 ├── sql/
 │   └── jspecforge.sql       # 数据库建库建表脚本
 ├── templates/               # PBT / MT TestDriver 模板
+├── dataset/                 # 实验产物：688 任务输入 + full/norp 结果 JSONL（见 dataset/README.md）
 ├── data/                    # 输入数据集（jsonl）
 ├── config.yaml.example      # 配置示例（复制为 config.yaml）
 └── vendors.example.csv      # LLM 供应商示例（复制为 vendors.csv）

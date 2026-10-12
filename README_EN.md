@@ -6,6 +6,8 @@ JSpecForge reads programming-task data consisting of a natural-language descript
 
 [中文 README](README.md)
 
+> 📦 **Experimental artifacts (paper Data Availability)**: the 688-task input and full/norp result JSONL — see [`dataset/`](dataset/README.md).
+
 ---
 
 ## Table of Contents
@@ -247,6 +249,7 @@ JSpecForge/
 ├── sql/
 │   └── jspecforge.sql       # Database schema script
 ├── templates/               # PBT / MT TestDriver templates
+├── dataset/                 # Experimental artifacts: 688-task input + full/norp result JSONL (see dataset/README.md)
 ├── data/                    # Input dataset (jsonl)
 ├── config.yaml.example      # Config template (copy to config.yaml)
 └── vendors.example.csv      # LLM vendor template (copy to vendors.csv)
